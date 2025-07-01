@@ -1,0 +1,58 @@
+@use "base/variables" as v;
+@use "base/mixins" as m;
+
+.barra{
+    display: flex;
+    flex-direction: column;
+    padding: 3rem 0 1rem;
+    align-items: center;
+    
+    @include tablet{
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        
+    }
+}
+
+.navegacion{
+    
+    visibility: hidden;
+    opacity: 0;
+    max-height: 0;
+    transition: visibility .5s ease-in-out, opacity .5s linear, max-height .5s linear;
+    
+    @include tablet{
+        display: flex;
+        visibility: visible;
+        opacity: 1;
+    }
+
+    
+    a {
+        display: block; 
+        text-align: center;
+        color: v.$blanco;
+        text-decoration: none;
+        cursor: pointer;
+        &:hover{
+            color: v.$verde;
+        }
+        @include tablet {
+            display: block;
+            margin-right: 2rem;
+            font-size: 1.8rem;
+            
+
+            &:last-of-type{
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+.mostrar{
+    visibility: visible;
+    opacity: 1;
+    max-height: 60rem;
+}

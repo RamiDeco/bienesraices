@@ -1,0 +1,19 @@
+.imagen-nosotros{
+    max-width: 380rem;
+}
+
+@include tablet{
+    .contenedor-nosotros{
+        @include grid(2,2rem);
+    }
+}
+
+.contenido-nosotros{
+    margin-left: 2rem;
+    
+    h4{
+        margin-top: 1rem;
+        font-size: 1.8rem;
+        font-weight: $black;
+    }
+}

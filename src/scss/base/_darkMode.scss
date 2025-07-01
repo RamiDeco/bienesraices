@@ -1,0 +1,42 @@
+.contenido-derecha{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include tablet{
+        align-items: flex-end;
+    }
+}
+
+.darkmode{
+    background-color: darken($grisOscuro, 10);
+
+    p{
+        color: $blanco;
+    }
+    h1,h2,h3,h4,a{
+        color:$gris;
+    }
+    .anuncio{
+        background-color: $grisOscuro;
+        border: 1px solid $grisOscuro;
+    }
+    .precio{
+        color: $verde;
+    }
+    .icono{
+        filter:invert(100%);
+    }
+    .formulario{
+        legend, label, p{
+            color: $gris;
+            
+        }
+        input:not([type="submit"]), textarea, select{
+            background-color: $grisOscuro;
+            color:$blanco;
+            border: 1px solid $grisOscuro;
+
+        }
+    }
+}
+

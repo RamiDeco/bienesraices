@@ -1,0 +1,37 @@
+.boton-amarillo-block{
+    @include boton($amarillo, block);
+}
+
+.boton-amarillo{
+    @include boton($amarillo, inline);
+}
+
+.boton-verde{
+    @include boton($verde, inline);
+}
+
+.boton-rojo-block{
+    width: 100%;
+    padding: 1.5rem;
+    @include boton($rojo, block);
+    
+}
+
+.boton-amarillo-block{
+    @include boton($amarillo, block);
+}
+
+.alinear-derecha{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.boton-dark-mode{
+    width: 3rem;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    filter:invert(100%);
+    &:hover{
+        cursor: pointer;
+    }
+}

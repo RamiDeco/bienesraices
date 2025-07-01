@@ -1,0 +1,51 @@
+@use "base/variables" as v;
+
+.inicio .no-webp{
+    background-image: url(../img/header.jpg);
+}
+
+.webp .inicio {
+    background-image: url(../img/header.jpg);
+}
+
+.header {
+    background-color: v.$grisOscuro;
+
+    &.inicio{
+        background-position: center center;
+        background-size: cover;
+        
+        @include tablet{
+            min-height: 70rem;
+        }
+        .contenido-header{
+            @include tablet{
+                min-height: 70rem;
+                
+            }
+        }
+    }
+}
+
+.contenido-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    @include tablet {
+        height: 15rem;
+    }
+    h1{
+       text-align: left;
+       color: $blanco;
+       font-weight: $bold;
+       line-height: 2;
+       max-width: 60rem;
+    }
+}
+
+.mobile{
+    width: 6rem;
+    @include tablet{
+        display: none;
+    }
+}
