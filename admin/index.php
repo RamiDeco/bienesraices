@@ -1,15 +1,9 @@
 <?php
-    require "../includes/funciones.php";
+    require "../includes/app.php";
 
-    $auth = estaAutenticado();
-
-    if(!$auth){
-        header('Location: /index.php');
-        exit();
-    }
+    estaAutenticado();
     
     //Importar conexión
-    require "../includes/config/database.php";
     $db = conectarDB();
 
     //query a la base de datos

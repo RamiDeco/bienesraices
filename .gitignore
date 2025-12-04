@@ -2,4 +2,6 @@ node_modules
 includes/config
 .env
 database.sql
+usuarios.php
 
+/vendor/
