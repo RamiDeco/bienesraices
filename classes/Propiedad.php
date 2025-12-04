@@ -29,7 +29,7 @@ class Propiedad
         $this->wc = $args['wc'] ?? '';
         $this->estacionamiento = $args['estacionamiento'] ?? '';
         $this->creado = date('Y/m/d');
-        $this->vendedorId = $args['vendedorId'] ?? '';
+        $this->vendedorId = $args['vendedorId'] ?? '1';
     }
 
     public static function setDB($db):void
@@ -121,5 +121,42 @@ class Propiedad
         self::$db->query($query);
 
         return true;
+    }
+
+    //Map results of the query in Propiedad objects
+    protected static function createObj($row)
+    {
+        $obj = new self;
+
+        foreach($row as $key => $value) {
+            if (property_exists($obj, $key)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
+    }
+
+    public static function querySQL($query)
+    {
+        $result = self::$db->query($query);
+
+        $array = [];
+        while($row = $result->fetch_assoc()) {
+            $array[] = self::createObj($row);
+        }
+
+        $result->free();
+
+        return $array;
+    }
+
+    public static function getAll()
+    {
+        $query = "SELECT * FROM propiedades;";
+
+        $propiedades = self::querySQL($query);
+
+        return $propiedades;
     }
 }

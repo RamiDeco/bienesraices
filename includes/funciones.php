@@ -23,3 +23,9 @@ function debug($var): void {
     var_dump($var);
     echo '</pre>';
 }
+
+function s($html) {
+    $result = htmlspecialchars($html);
+
+    return $result;
+}
