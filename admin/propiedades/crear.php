@@ -18,16 +18,18 @@ $result = mysqli_query($db, $consulta);
 
 $errores = [];
 
+$propiedad = new Propiedad;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $propiedad = new Propiedad($_POST);
+    $propiedad = new Propiedad($_POST['propiedad']);
 
-    if ($_FILES['imagen']['tmp_name']) {
+    if ($_FILES['propiedad']['tmp_name']['imagen']) {
         //Crear nombre único
         $imageName = md5(uniqid(rand(), true)) . ".jpg";
 
         $manager = new Image(Driver::class);
-        $image = $manager->read($_FILES['imagen']['tmp_name'])->cover(800, 600);
+        $image = $manager->read($_FILES['propiedad']['tmp_name']['imagen'])->cover(800, 600);
 
         //Setear nombre en base de datos
         $propiedad->setImage($imageName);
@@ -44,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Guardar imagenes en carpeta
         $image->save(CARPETA_IMAGENES . $imageName);
 
-        $result = $propiedad->guardar();
+        $result = $propiedad->save();
         if ($result) {
             header("Location: /admin/index.php?resultado=1");
         }

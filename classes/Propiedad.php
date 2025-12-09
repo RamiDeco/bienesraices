@@ -6,6 +6,7 @@ class Propiedad
 {
     protected static $db;
     protected static $columnasDB = ['id', 'titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'estacionamiento', 'creado', 'vendedores_id'];
+    protected static $errores;
 
     public $id;
     public $titulo;
@@ -65,50 +66,64 @@ class Propiedad
 
     public function setImage($imagen):void
     {
+        //Eliminar imagen anterior
+        if ($this->id) {
+            if ($imagen) {
+                unlink(CARPETA_IMAGENES . $this->imagen);
+            }
+        }
         if ($imagen) {
             $this->imagen = $imagen;
         }
     }
 
-    public function validar():array
+    public function validar()
     {
         $errores = [];
 
         if (!$this->titulo) {
-            $errores[] = "Debes añadir un título";
+            self::$errores[] = "Debes añadir un título";
         }
         if (strlen($this->titulo) > 24) {
-            $errores[] = "Debes añadir un título más corto";
+            self::$errores[] = "Debes añadir un título más corto";
         }
         if (!$this->precio) {
-            $errores[] = "Debes añadir un precio";
+            self::$errores[] = "Debes añadir un precio";
         }
         if (!$this->descripcion) {
-            $errores[] = "Debes añadir una descripcion";
+            self::$errores[] = "Debes añadir una descripcion";
         }
         if (strlen($this->descripcion) < 40) {
-            $errores[] = "Debes añadir una descripcion más larga";
+            self::$errores[] = "Debes añadir una descripcion más larga";
         }
         if (!$this->habitaciones) {
-            $errores[] = "Debes añadir cantidad de habitaciones";
+            self::$errores[] = "Debes añadir cantidad de habitaciones";
         }
         if (!$this->wc) {
-            $errores[] = "Debes añadir cantidad de wc";
+            self::$errores[] = "Debes añadir cantidad de wc";
         }
         if (!$this->estacionamiento) {
-            $errores[] = "Debes añadir cantidad de estacionamientos";
+            self::$errores[] = "Debes añadir cantidad de estacionamientos";
         }
         if (!$this->vendedorId) {
-            $errores[] = "Debes elegir un vendedor";
+            self::$errores[] = "Debes elegir un vendedor";
         }
         if (!$this->imagen) {
-            $errores[] = "La Imagen es Obligatoria";
+            self::$errores[] = "La Imagen es Obligatoria";
         }
 
-        return $errores;
+        return self::$errores;
     }
 
-    public function guardar():bool
+    public function save()
+    {
+        if (isset($this->id)) {
+            return $this->update();
+        }
+        return $this->create();
+    }
+
+    public function create()
     {
         $attr = $this->sanitizeAtts();
 
@@ -117,6 +132,23 @@ class Propiedad
         $query .= ") VALUES ('";
         $query .= join("', '", array_values($attr));
         $query .= "')";
+
+        self::$db->query($query);
+
+        return true;
+    }
+
+    public function update() {
+        $attr = $this->sanitizeAtts();
+
+        $values = [];
+        foreach($attr as $key => $value) {
+            $values[] = $key . " = '" . $value . "'";
+        }
+
+        $query = "UPDATE propiedades SET ";
+        $query .= join(', ', $values);
+        $query .= " WHERE id =" . $this->id . ";";
 
         self::$db->query($query);
 
@@ -158,5 +190,27 @@ class Propiedad
         $propiedades = self::querySQL($query);
 
         return $propiedades;
+    }
+
+    public static function findById($id)
+    {
+        $query = "SELECT * FROM propiedades WHERE id = {$id}";
+
+        $propiedad = self::querySQL($query);
+
+        return array_shift($propiedad);
+    }
+
+    public function sync($args = [])
+    {
+        foreach($args as $key => $value) {
+            if (property_exists($this, $key) && !is_null($value)) {
+                $this->$key = $value;
+            }
+        }
+    }
+
+    public static function getErrors() {
+        return self::$errores;
     }
 }
