@@ -213,4 +213,16 @@ class Propiedad
     public static function getErrors() {
         return self::$errores;
     }
+
+    public function delete() {
+        $query = "DELETE FROM propiedades WHERE id = " . self::$db->escape_string($this->id).";";
+        $resultDel = self::$db->query($query);
+
+        if ($resultDel){
+                unlink(CARPETA_IMAGENES . $this->imagen);
+                header("Location: /admin/index.php?resultado=3");
+                exit();
+            }
+
+    }
 }

@@ -12,15 +12,8 @@
         $id = $_POST['id'];
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if ($id){
-            //Eliminamos la imagen de la propiedad
-            $queryImagen = "SELECT imagen FROM propiedades WHERE id = ".$id.";";
-            $resultadoImagen = mysqli_query($db, $queryImagen);
-            $propiedades = mysqli_fetch_assoc($resultadoImagen);
-            unlink('../imagenes/'.$propiedades['imagen']); 
-
-            //Realizamos consulta para eliminar
-            $queryEliminar = "DELETE FROM propiedades WHERE id = ".$id.";";
-            $resultadoEliminar = mysqli_query($db, $queryEliminar);
+            $propiedad = Propiedad::findById($id);
+            $propiedad->delete();
 
             if ($resultadoEliminar){
                 header("Location: /admin/index.php?resultado=3");

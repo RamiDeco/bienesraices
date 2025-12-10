@@ -9,7 +9,9 @@
 
     <label for="imagen">imagen:</label>
     <input type="file" accept="image/jpeg, image/png" id="imagen" name="propiedad[imagen]">
-    <img class="imagen-form" src="<?php echo '/imagenes/' . $propiedad->imagen ?>" alt="<?php echo $propiedad->titulo ?>" width="100" height="100">
+    <?php if ($propiedad->id): ?>
+        <img class="imagen-form" src="<?php echo '/imagenes/' . $propiedad->imagen ?>" alt="<?php echo $propiedad->titulo ?>" width="100" height="100">
+    <?php endif; ?>
 
     <label for="descripcion">descripcion:</label>
     <textarea id="descripcion" name="propiedad[descripcion]"><?php echo s($propiedad->descripcion) ?></textarea>
