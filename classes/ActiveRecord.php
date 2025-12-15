@@ -139,6 +139,15 @@ class ActiveRecord
         return $propiedades;
     }
 
+    public static function get($limit)
+    {
+        $query = "SELECT * FROM " . static::$table . " LIMIT " . $limit . ";";
+
+        $propiedades = self::querySQL($query);
+
+        return $propiedades;
+    }
+
     public static function findById($id)
     {
         $query = "SELECT * FROM " . static::$table . " WHERE id = {$id}";

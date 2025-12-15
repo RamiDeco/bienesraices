@@ -2,7 +2,11 @@
 
 use App\Propiedad;
 
-$propiedades = Propiedad::getAll();
+if($_SERVER['SCRIPT_NAME'] === 'anuncios.php') {
+    $propiedades = Propiedad::getAll();
+} else {
+    $propiedades = Propiedad::get($limite);
+}
 
 ?>
 

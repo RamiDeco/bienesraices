@@ -42,6 +42,9 @@ class Propiedad extends ActiveRecord
         if (!$this->precio) {
             self::$errores[] = "Debes añadir un precio";
         }
+        if (strlen($this->precio) > 8) {
+            self::$errores[] = "Debes añadir un precio mas bajo";
+        }
         if (!$this->descripcion) {
             self::$errores[] = "Debes añadir una descripcion";
         }
