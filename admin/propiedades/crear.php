@@ -3,6 +3,7 @@
 require "../../includes/app.php";
 
 use App\Propiedad;
+use App\Vendedor;
 use Intervention\Image\ImageManager as Image;
 use Intervention\Image\Drivers\Gd\Driver;
 
@@ -12,9 +13,7 @@ estaAutenticado();
 $db = conectarDB();
 
 //Obtener datos de vendedores de la base de datos
-$consulta = "SELECT * FROM vendedores;";
-$result = mysqli_query($db, $consulta);
-
+$vendedores = Vendedor::getAll();
 
 $errores = [];
 
@@ -46,10 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Guardar imagenes en carpeta
         $image->save(CARPETA_IMAGENES . $imageName);
 
-        $result = $propiedad->save();
-        if ($result) {
-            header("Location: /admin/index.php?resultado=1");
-        }
+        $propiedad->save();
     }
 }
 

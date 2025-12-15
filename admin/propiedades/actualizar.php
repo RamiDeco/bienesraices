@@ -2,6 +2,7 @@
 require "../../includes/app.php";
 
 use App\Propiedad;
+use App\Vendedor;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager as Image;
 
@@ -17,10 +18,7 @@ if (!$id) {
 //Consulta para Prellenar los inputs
 $propiedad = Propiedad::findById($id);
 
-//Obtener datos de vendedores de la base de datos
-$consulta = "SELECT * FROM vendedores;";
-$result = mysqli_query($db, $consulta);
-
+$vendedores = Vendedor::getAll();
 
 //Validacion de datos
 $errores = Propiedad::getErrors();
@@ -42,17 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //Setear nombre en base de datos
         $propiedad->setImage($imageName);
+
+        if (empty($errores)) {
+            $image->save(CARPETA_IMAGENES . $imageName);
+        }
     }
 
-    if (empty($errores)) {
-        //Guardar imagen en disco
-        $image->save(CARPETA_IMAGENES . $imageName);
-        
-        $result = $propiedad->save();
-
-        if ($result) {
-            header("Location: /admin/index.php?resultado=2");
-        }
+    if (empty($errores)) {        
+        $propiedad->save();
     }
 }
 

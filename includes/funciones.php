@@ -22,10 +22,37 @@ function debug($var): void {
     echo '<pre>';
     var_dump($var);
     echo '</pre>';
+    die;
 }
 
 function s($html) {
     $result = htmlspecialchars($html);
 
     return $result;
+}
+
+function validateType($type) {
+    $allowedTypes = ['propiedad', 'vendedor'];
+    
+    return in_array($type, $allowedTypes);
+}
+
+function generateMessage($code) {
+    $message = '';
+    switch($code) {
+        case 1:
+            $message = 'Creado correctamente';
+            break;
+        case 2:
+            $message = 'Actualizado correctamente';
+            break;
+        case 3:
+            $message = 'Eliminado correctamente';
+            break;
+        default:
+            $message = false;
+            break;
+    }
+
+    return $message;
 }
